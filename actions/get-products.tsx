@@ -1,4 +1,4 @@
-import { Product } from "@/types";
+import { Image, Product } from "@/types";
 
 import qs from "query-string";
 
@@ -9,6 +9,7 @@ interface Query {
   colorId?: string;
   sizeId?: string;
   isFeatured?: boolean;
+  images?: Image[] | undefined;
 }
 
 const getProducts = async (query: Query): Promise<Product[]> => {
