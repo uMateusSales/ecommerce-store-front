@@ -13,7 +13,7 @@ interface Query {
 }
 
 const getProducts = async (query: Query): Promise<Product[]> => {
-  const url = qs.stringifyUrl({
+  const urlWithParams = qs.stringifyUrl({
     url: URL,
     query: {
       colorId: query.colorId,
@@ -23,7 +23,7 @@ const getProducts = async (query: Query): Promise<Product[]> => {
     },
   });
 
-  const res = await fetch(URL, { next: { revalidate: 1000 } });
+  const res = await fetch(urlWithParams, { next: { revalidate: 1000 } });
 
   return res.json();
 };

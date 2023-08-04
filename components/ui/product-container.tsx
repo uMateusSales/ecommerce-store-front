@@ -4,16 +4,25 @@ import { Product } from "@/types";
 import Image from "next/image";
 import IconButton from "./icon-button";
 import { Expand, ShoppingCart } from "lucide-react";
+import Currency from "./currency";
+import { useRouter } from "next/navigation";
 
 interface ProductContainerProps {
   data: Product;
 }
 
 const ProductContainer: React.FC<ProductContainerProps> = ({ data }) => {
-  console.log(data?.images?.[0].url);
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/product/${data?.id}`);
+  };
 
   return (
-    <div className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4">
+    <div
+      onClick={handleClick}
+      className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4"
+    >
       <div className="aspect-square rounded-xl bg-gray-100 relative">
         <Image
           src={data?.images?.[0]?.url}
@@ -34,6 +43,13 @@ const ProductContainer: React.FC<ProductContainerProps> = ({ data }) => {
             />
           </div>
         </div>
+      </div>
+      <div className="font-semibold text-lg">
+        <p>{data.name}</p>
+        <p className="text-sm text-gray-500">{data.category.name}</p>
+      </div>
+      <div className="flex items-center justify-between">
+        <Currency value={data.price} />
       </div>
     </div>
   );
