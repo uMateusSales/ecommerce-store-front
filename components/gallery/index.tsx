@@ -30,7 +30,7 @@ export const Gallery: React.FC<GalleryProps> = ({ images }) => {
                 fill
                 src={i.url}
                 alt="image"
-                className="object- cover object-center"
+                className="object-cover object-center"
               />
             </div>
           </Tab.Panel>
