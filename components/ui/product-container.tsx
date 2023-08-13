@@ -48,14 +48,18 @@ const ProductContainer: React.FC<ProductContainerProps> = ({ data }) => {
 
         <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
           <div className="flex gap-x-6 justify-center">
+            <div className="flex items-center bg-slate-100 rounded-md p-1">
             <IconButton
               onClick={onPreview}
               icon={<Expand size={20} className="text-gray-700" />}
-            />
+              />
+            </div>
+              <div className="flex items-center bg-slate-100 rounded-md p-1">
             <IconButton
               onClick={addToCart}
               icon={<ShoppingCart size={20} className="text-gray-700" />}
             />
+            </div>
           </div>
         </div>
       </div>

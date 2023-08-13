@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
 import Button from "@/components/ui/button";
 
@@ -11,6 +11,7 @@ import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
 
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 const Summary = () => {
   const cart = useCart((state) => state.items);
@@ -39,6 +40,7 @@ const Summary = () => {
       }
     );
     window.location = response.data.url;
+
   };
 
   return (
@@ -52,9 +54,12 @@ const Summary = () => {
           <Currency value={totalPrice} />
         </div>
       </div>
-      <Button onClick={onCheckout} className="w-full mt-6">
+    
+      <Link target="_blank" href={`https://api.whatsapp.com/send?phone=5581986378256&text=Oi!%0A%0AFiz%20um%20pedido%20de%20${cart.map((i) => i.name )}%20por%20R$${totalPrice}%20e%20queria%20saber%20a%20disponibilidade!`} >
+      <Button disabled={cart.length === 0}  className="w-full mt-6">
         Finalizar pedido
       </Button>
+      </Link>
     </div>
   );
 };
