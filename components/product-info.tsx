@@ -47,7 +47,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
       </div>
       </div>
   <div className="mt-10 flex items-center gap-x-3">
-    <Button disabled={cart.items.length === 0} onClick={addToCart} className="flex items-center gap-x-2">
+    <Button onClick={addToCart} className="flex items-center gap-x-2">
       Adicionar ao carrinho
       <ShoppingCart />
     </Button>
