@@ -25,8 +25,6 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ data }) => {
 
 
 
-
-
   return (
     <div>
       <h1 className="text-4xl font-bold text-gray-900">{data.name}</h1>

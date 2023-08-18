@@ -18,6 +18,7 @@ export interface Product {
   isFeatured: boolean;
   size: Size;
   color: Color;
+  quantity: number;
   images: Image[];
 }
 
