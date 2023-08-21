@@ -1,8 +1,8 @@
 "use client";
 
 import axios from "axios";
-import { use, useCallback, useEffect, useState } from "react";
-import { redirect, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 import Button from "@/components/ui/button";
 
@@ -18,9 +18,6 @@ const Summary = () => {
   const removeAll = useCart((state) => state.removeAll);
   const searchParams = useSearchParams();
 
-
-
-
   useEffect(() => {
     if (searchParams.get("sucess")) {
       toast.success("Pagamento feito");
@@ -31,16 +28,19 @@ const Summary = () => {
     }
   }, [searchParams, removeAll]);
 
+  const totalPrice = cart.reduce((total, item) => {
+    return total + Number(item.price) * item.quantity;
+  }, 0);
 
- 
-
-const getTotaPrice = useCallback(() => {return cart.reduce((total, item) => {
-  return total + Number(item.price) * item.quantity;
- 
-
-}, 0)},[cart]  )
-
-
+  const onCheckout = async () => {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+      {
+        productIds: cart.map((i) => i.id),
+      }
+    );
+    window.location = response.data.url;
+  };
 
   return (
     <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
@@ -50,14 +50,22 @@ const getTotaPrice = useCallback(() => {return cart.reduce((total, item) => {
           <div className="text-base font-medium text-gray-800">
             Total do pedido
           </div>
-          <Currency value={getTotaPrice()} />
+          <Currency value={totalPrice} />
         </div>
       </div>
-    
-      <Link target="_blank" href={`https://api.whatsapp.com/send?phone=5581986378256&text=Oi!%0A%0AFiz%20um%20pedido%20de%20${cart.map((i) => i.name )}%20por%20R$${getTotaPrice()}%20e%20queria%20saber%20a%20disponibilidade!`} >
-      <Button disabled={cart.length === 0}  className="w-full mt-6">
-        Finalizar pedido
-      </Button>
+
+      <Link
+        target="_blank"
+        href={`https://api.whatsapp.com/send?phone=5581986379256&text=######%20PEDIDO%20########%0A%0A%0AProdutos:%20%0A####################
+        ${cart.map(
+          (i) =>
+            `%0A%0A######%0A%0A%20Nome%20do%20produto:%20${i.name}%0A%0AValor:%20R$${i.price},00%0A%0AQuantidade:%20${i.quantity}%0A%0A########`
+        )}
+        ###############################%0A%0A%0AValor%20total%20do%20pedido:%20R$${totalPrice},00%0A%0A######%20`}
+      >
+        <Button disabled={cart.length === 0} className="w-full mt-6">
+          Finalizar pedido
+        </Button>
       </Link>
     </div>
   );
